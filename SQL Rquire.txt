@@ -1,0 +1,28 @@
+-- 2.1) List number of faculty who have 'R' in his/her first name.
+select count(f.FACFIRSTNAME) as `Number name have 'R' in his/her first name`
+from faculty f
+where f.FACFIRSTNAME like '%R%';
+
+-- 2.2) List offering number, number of student have grade greater than 3.00 on that offering 
+-- and the maximum student grade in each offering.
+select e.OFFERNO as `Offering Number`, count(e.STDSSN) as `Number of student have grade grater than 3.00`,
+	max(e.ENRGRADE) as `Maximum grade on this offering`
+from enrollment e
+where e.ENRGRADE > 3.00
+group by e.OFFERNO;
+
+-- 2.3) List number of course and course number have don't taught on SUMMER and have class at lease or equal 2.
+select count(o.offerno) as `number of course`, o.COURSENO as `Course No.`
+from offering o
+where o.offterm != 'SUMMER'
+group by o.COURSENO
+having count(o.OFFERNO) >= 2;
+
+-- 2.4) List student class, number of student have GPA greater than 2.5 and maximum GPA each class.
+-- and average GPA each class is greater than 3.0 Arrange the result in descending order by maximum GPA.
+select s.STDCLASS as `Student class`, count(s.STDSSN) as `Number of student get GPA greater than 2.5`, max(s.STDGPA) as `Maximum grade in class`
+from student s
+where s.STDGPA >= 2.5
+group by s.STDCLASS
+having avg(STDGPA) > 3.0
+order by max(s.STDGPA) desc;
